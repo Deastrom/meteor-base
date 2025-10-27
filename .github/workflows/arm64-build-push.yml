@@ -121,7 +121,7 @@ jobs:
           build-args: |
             METEOR_VERSION=${{ matrix.version }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/meteor-base:${{ matrix.version }}-arm64
-            ${{ steps.check_latest.outputs.is_latest == 'true' && format('ghcr.io/{0}/meteor-base:latest-arm64', github.repository_owner) || '' }}
+            ghcr.io/${{ toLower(github.repository_owner) }}/meteor-base:${{ matrix.version }}-arm64
+            ${{ steps.check_latest.outputs.is_latest == 'true' && format('ghcr.io/{0}/meteor-base:latest-arm64', toLower(github.repository_owner)) || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
