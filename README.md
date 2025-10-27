@@ -60,6 +60,24 @@ There are several great Meteor Docker images out there. We built this one becaus
 
 Other projects I looked at generally had one or more of the disadvantages cited above. Multistage Docker builds have only been possible since Docker 17.05, which came out in May 2017, and most projects on the Web were designed before then and therefore don’t take advantage of the possibilities offered by a multistage architecture.
 
+## ARM64 Support
+
+ARM64 (linux/arm64/v8) images are automatically built and published to the GitHub Container Registry (GHCR) for all supported Meteor versions. These images are ideal for running on ARM-based servers, such as AWS Graviton instances or Apple Silicon.
+
+To use the ARM64 images, replace `geoffreybooth/meteor-base` with `ghcr.io/deastrom/meteor-base` and append `-arm64` to the version tag:
+
+```Dockerfile
+FROM ghcr.io/deastrom/meteor-base:3.3.2-arm64
+```
+
+For the latest version:
+
+```Dockerfile
+FROM ghcr.io/deastrom/meteor-base:latest-arm64
+```
+
+These images are built using the same Dockerfile and process as the x86_64 images, ensuring consistency across architectures.
+
 ## Contributing
 
 ### Adding a new Meteor version
