@@ -112,6 +112,11 @@ jobs:
             echo "is_latest=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Lowercase repository owner
+        id: owner
+        run: |
+          echo "owner_lower=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Build and push Docker image for ARM64
         uses: docker/build-push-action@v5
         with:
@@ -121,7 +126,7 @@ jobs:
           build-args: |
             METEOR_VERSION=${{ matrix.version }}
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/meteor-base:${{ matrix.version }}-arm64
-            ${{ steps.check_latest.outputs.is_latest == 'true' && format('ghcr.io/{0}/meteor-base:latest-arm64', toLower(github.repository_owner)) || '' }}
+            ghcr.io/${{ steps.owner.outputs.owner_lower }}/meteor-base:${{ matrix.version }}-arm64
+            ${{ steps.check_latest.outputs.is_latest == 'true' && format('ghcr.io/{0}/meteor-base:latest-arm64', steps.owner.outputs.owner_lower) || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
